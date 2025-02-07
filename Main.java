@@ -1,6 +1,7 @@
 import java.util.Arrays;
 import java.util.Random;
 
+//private void print(String str);
 
 public class Main {
     public static void main(String[] args) {
@@ -34,6 +35,7 @@ public class Main {
         }
         i = 0;
 
+        //adding gold to the board
         while(i < numGold){
             if(!board.addType("gold", rng.nextInt(5), rng.nextInt(5) ))
                 continue;
@@ -41,7 +43,10 @@ public class Main {
             i++;
         }
 
+        //print(board);
+
         System.out.println(board);
 
     }
 }
+

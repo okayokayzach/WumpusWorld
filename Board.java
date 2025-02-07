@@ -26,13 +26,13 @@ public class Board {
         if(xpos + 1 < width){
             board[xpos + 1][ypos].addAttribute(actor);
         }
-        if(xpos - 1 > 0){
+        if(xpos - 1 >= 0){
             board[xpos - 1][ypos].addAttribute(actor);
         }
         if(ypos + 1 < height){
             board[xpos][ypos + 1].addAttribute(actor);
         }
-        if(ypos - 1 > 0){
+        if(ypos - 1 >= 0){
             board[xpos][ypos - 1].addAttribute(actor);
         }
         return true;
@@ -41,16 +41,31 @@ public class Board {
     public String toString(){
         String res = "";
 
-        System.out.println("_".repeat(106));
+        res += "-".repeat(106) + "\n";
         for(int i = 0; i < height; i++){
-            System.out.print("|");
+
+            res += emptyLine() + "\n" + "|";
+
             for(int j = 0; j < width; j++){
-                //System.out.println("-----");
-                System.out.print(board[j][i] + "|");
+                res += board[j][i] + "|";
             }
-            System.out.println();
-            System.out.println("-".repeat(106));
+
+            res += "\n" + emptyLine();
+
+            res+= "\n" + "-".repeat(106) + "\n";
         }
+
+        return res;
+    }
+    private String emptyLine(){
+        String res = "";
+
+
+        for(int i = 0; i < width; i++){
+            res += "|" + " ".repeat(20) ;
+        }
+
+        res += "|";
 
         return res;
     }

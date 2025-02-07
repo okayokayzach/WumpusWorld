@@ -1,10 +1,22 @@
+import java.lang.Math;
+
+
 public class Square {
 
-    //hasWumpus, wumpus alive, has gold, has void
-    private boolean hasType[] = {false, true, false, false, false, false, false};
+    //hasWumpus, wumpus alive, has gold, has void, has stink, has shine, has breeze
+    private boolean hasType[] = {false, false, false, false, false, false, false};
+
+    String blackText = "\u001B[30m";
+    String blueBack = "\u001B[44m" + blackText;
+    String blueText = "\u001B[34m";
+    String pinkBack = "\u001B[45m" + blackText;
+    String pinkText = "\u001B[35m";
+    String yellowBack = "\u001B[43m" + blackText;
+    String yellowText = "\u001B[33m";
+    String reset = "\033[0m";
 
     //Corresponding type to above boolean array
-    private String type[] = {"\u001B[35mWumpus\033[0m", "Alive", "\u001B[33mGold\033[0m", "\u001B[34mVoid\033[0m", "\u001B[35mStink\033[0m", "\u001B[33mShine\033[0m", "\u001B[34mBreeze\033[0m"};
+    private String type[] = {pinkBack + "Wumpus" + reset, pinkBack + "Alive" + reset, yellowBack + "Gold" + reset, blueBack + "Void" + reset, pinkText + "Stink" + reset, yellowText + "Shine" + reset, blueText + "Breeze" + reset};
 
     public Square(){}
 
@@ -20,6 +32,7 @@ public class Square {
         switch(actor){
             case("wumpus"):
                 hasType[0] = true;
+                hasType[1] = true;
                 break;
             case("gold"):
                 hasType[2] = true;
@@ -37,6 +50,11 @@ public class Square {
     public void addAttribute(String attribute){
         attribute = attribute.toLowerCase();
 
+        //if square has a void don't also add attributes
+        if(hasType[3]){
+            return;
+        }
+
         switch(attribute){
             case("wumpus"):
                 hasType[4] = true;
@@ -53,24 +71,25 @@ public class Square {
 
     public String toString(){
         String res = "";
+        double num = 0.0;
 
         //adds all attributes and types the square has
         for(int i = 0; i < hasType.length; i++ ){
-            //makes sure that alive is only printed with wumpus
-            if(i == 1 && !hasType[0]){
-                continue;
-            }
 
             if(hasType[i]){
-                res += String.format("%26s",type[i] + " ");
-            }
-            else{
-                res += "      ";
+                res += type[i] + " ";
+                //res += String.format("%26s",type[i] + " ");
+                if(i <= 3)
+                    num += 1.5;
+                else
+                    num++;
             }
         }
 
+        int width = (int)Math.round((num * 9) + 20);
+
         //formats the final string
-        //res = String.format("%20s", res);
+        res = String.format("%" +width +"s", res);
         return res;
     }
 
