@@ -4,8 +4,7 @@ public class Square {
     private boolean hasType[] = {false, true, false, false, false, false, false};
 
     //Corresponding type to above boolean array
-    private String type[] = {"Wumpus", "Alive", "Gold", "Void", "Stink", "Shine", "Breeze"};
-
+    private String type[] = {"\u001B[35mWumpus\033[0m", "Alive", "\u001B[33mGold\033[0m", "\u001B[34mVoid\033[0m", "\u001B[35mStink\033[0m", "\u001B[33mShine\033[0m", "\u001B[34mBreeze\033[0m"};
 
     public Square(){}
 
@@ -63,12 +62,15 @@ public class Square {
             }
 
             if(hasType[i]){
-                res += type[i] + " ";
+                res += String.format("%26s",type[i] + " ");
+            }
+            else{
+                res += "      ";
             }
         }
 
         //formats the final string
-        res = String.format("%20s", res);
+        //res = String.format("%20s", res);
         return res;
     }
 
