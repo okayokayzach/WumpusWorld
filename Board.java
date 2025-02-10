@@ -1,10 +1,14 @@
 public class Board {
-    static final int height = 5;
-    static final int width = 5;
+    int height, width;
 
-    Square board[][] = new Square[width][height];
+    Square board[][];
 
-    public Board(){
+    public Board(int width, int height){
+        this.height = height;
+        this.width = width;
+
+        board = new Square[width][height];
+
         for(int i = 0; i < height; i++){
             for(int j = 0; j < width; j++){
                 board[i][j] = new Square();
@@ -38,10 +42,14 @@ public class Board {
         return true;
     }
 
+    public boolean[] squareState(int xpos, int ypos){
+        return board[xpos][ypos].state();
+    }
+
     public String toString(){
         String res = "";
 
-        res += "-".repeat(106) + "\n";
+        res += "-".repeat((21 * width)) + "\n";
         for(int i = 0; i < height; i++){
 
             res += emptyLine() + "\n" + "|";
@@ -52,14 +60,13 @@ public class Board {
 
             res += "\n" + emptyLine();
 
-            res+= "\n" + "-".repeat(106) + "\n";
+            res+= "\n" + "-".repeat((21 * width)) + "\n";
         }
 
         return res;
     }
     private String emptyLine(){
         String res = "";
-
 
         for(int i = 0; i < width; i++){
             res += "|" + " ".repeat(20) ;

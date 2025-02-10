@@ -2,28 +2,25 @@ import java.lang.Math;
 
 
 public class Square {
+    static public final int WUMPUS = 0, GOLD = 1, VOID = 2, STINK = 3, SHINE = 4, BREEZE = 5, ALIVE = 6;
+    private boolean hasType[] = {false, false, false, false, false, false, true};
 
-    //hasWumpus, wumpus alive, has gold, has void, has stink, has shine, has breeze
-    private boolean hasType[] = {false, false, false, false, false, false, false};
+    //Colours to be used for display
+    static final String BLACKTEXT = "\u001B[30m", BLUETEXT = "\u001B[34m", PINKTEXT = "\u001B[35m", YELLOWTEXT = "\u001B[33m";
+    static final String BLUEBACK = "\u001B[44m" + BLACKTEXT, PINKBACK = "\u001B[45m" + BLACKTEXT, YELLOWBACK = "\u001B[43m" + BLACKTEXT;
+    static final String RESET = "\033[0m";
 
-    String blackText = "\u001B[30m";
-    String blueBack = "\u001B[44m" + blackText;
-    String blueText = "\u001B[34m";
-    String pinkBack = "\u001B[45m" + blackText;
-    String pinkText = "\u001B[35m";
-    String yellowBack = "\u001B[43m" + blackText;
-    String yellowText = "\u001B[33m";
-    String reset = "\033[0m";
+    //Corresponding type to output with above boolean array hasType
+    private String type[] = {PINKBACK + "Wumpus" + RESET, YELLOWBACK + "Gold" + RESET, BLUEBACK + "Void" + RESET, PINKTEXT + "Stink" + RESET, YELLOWTEXT + "Shine" + RESET, BLUETEXT + "Breeze" + RESET};
 
-    //Corresponding type to above boolean array
-    private String type[] = {pinkBack + "Wumpus" + reset, pinkBack + "Alive" + reset, yellowBack + "Gold" + reset, blueBack + "Void" + reset, pinkText + "Stink" + reset, yellowText + "Shine" + reset, blueText + "Breeze" + reset};
+    public Square(){
 
-    public Square(){}
+    }
 
     public boolean addActor(String actor){
 
         //if it has a void you can't put anything else there
-        if(hasType[3]){
+        if(hasType[2]){
             return false;
         }
         //can wumpus and gold be at same square?
@@ -31,14 +28,13 @@ public class Square {
         actor = actor.toLowerCase();
         switch(actor){
             case("wumpus"):
-                hasType[0] = true;
-                hasType[1] = true;
+                hasType[WUMPUS] = true;
                 break;
             case("gold"):
-                hasType[2] = true;
+                hasType[GOLD] = true;
                 break;
             case("void"):
-                hasType[3] = true;
+                hasType[VOID] = true;
                 break;
             default:
                 return false;
@@ -51,22 +47,26 @@ public class Square {
         attribute = attribute.toLowerCase();
 
         //if square has a void don't also add attributes
-        if(hasType[3]){
+        if(hasType[2]){
             return;
         }
 
         switch(attribute){
             case("wumpus"):
-                hasType[4] = true;
+                hasType[STINK] = true;
                 break;
             case("gold"):
-                hasType[5] = true;
+                hasType[SHINE] = true;
                 break;
             case("void"):
-                hasType[6] = true;
+                hasType[BREEZE] = true;
                 break;
             default:
         }
+    }
+
+    public boolean[] state(){
+        return hasType;
     }
 
     public String toString(){
@@ -74,12 +74,12 @@ public class Square {
         double num = 0.0;
 
         //adds all attributes and types the square has
-        for(int i = 0; i < hasType.length; i++ ){
+        for(int i = 0; i < hasType.length - 1; i++ ){
 
             if(hasType[i]){
                 res += type[i] + " ";
                 //res += String.format("%26s",type[i] + " ");
-                if(i <= 3)
+                if(i <= VOID)
                     num += 1.5;
                 else
                     num++;
