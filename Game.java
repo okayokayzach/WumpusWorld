@@ -3,9 +3,10 @@ import java.util.Scanner;
 
 public class Game {
     static final int height = 5, width = 5;
-    final int numVoid = 3;
-    final int numWumpus = 1;
-    final int numGold = 1;
+    final int numVoid = 3, numWumpus = 1,numGold = 1;
+    static final String BLACKTEXT = "\u001B[30m", BLUETEXT = "\u001B[34m", PINKTEXT = "\u001B[35m", YELLOWTEXT = "\u001B[33m";
+    static final String BLUEBACK = "\u001B[44m" + BLACKTEXT, PINKBACK = "\u001B[45m" + BLACKTEXT, YELLOWBACK = "\u001B[43m" + BLACKTEXT;
+    static final String RESET = "\033[0m";
 
     Board board;
 
@@ -46,15 +47,15 @@ public class Game {
     }
 
     public void play(){
-        //debugging
+        /*//debugging
         System.out.println("Board state. (For debugging purposes)");
-        System.out.println(board);
+        System.out.println(board);*/
 
         Player player = new Player(board);
 
-        //debugging
+        /*//debugging
         System.out.println("Player state. (For debugging purposes)");
-        System.out.println("xpos: " +player.getXpos() + " ypos: " + player.getYpos());
+        System.out.println("xpos: " +player.getXpos() + " ypos: " + player.getYpos());*/
 
         Scanner scan = new Scanner(System.in);
 
@@ -77,9 +78,9 @@ public class Game {
                 continue;
             }
 
-            //debugging
+           /* //debugging
             System.out.println("Player state. (For debugging purposes)");
-            System.out.println("xpos: " +player.getXpos() + " ypos: " + player.getYpos());
+            System.out.println("xpos: " +player.getXpos() + " ypos: " + player.getYpos());*/
 
             result = move(player.getXpos(), player.getYpos());
 
@@ -156,11 +157,11 @@ public class Game {
         }
         else{
             if(state[Square.STINK])
-                res += "Stink ";
+                res += PINKTEXT + "Stink " + RESET;
             if(state[Square.BREEZE])
-                res += "Breeze ";
+                res += BLUETEXT + "Breeze " + RESET;
             if(state[Square.SHINE])
-                res += "Shine ";
+                res += YELLOWTEXT + "Shine " + RESET;
         }
         return res;
     }
