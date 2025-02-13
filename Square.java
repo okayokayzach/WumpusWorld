@@ -3,7 +3,7 @@ import java.lang.Math;
 
 public class Square {
     static public final int WUMPUS = 0, GOLD = 1, VOID = 2, STINK = 3, SHINE = 4, BREEZE = 5, ALIVE = 6;
-    private boolean hasType[] = {false, false, false, false, false, false, true};
+    boolean[] hasType = {false, false, false, false, false, false, true};
 
     //Colours to be used for display
     static final String BLACKTEXT = "\u001B[30m", BLUETEXT = "\u001B[34m", PINKTEXT = "\u001B[35m", YELLOWTEXT = "\u001B[33m";
@@ -13,9 +13,7 @@ public class Square {
     //Corresponding type to output with above boolean array hasType
     private String type[] = {PINKBACK + "Wumpus" + RESET, YELLOWBACK + "Gold" + RESET, BLUEBACK + "Void" + RESET, PINKTEXT + "Stink" + RESET, YELLOWTEXT + "Shine" + RESET, BLUETEXT + "Breeze" + RESET};
 
-    public Square(){
-
-    }
+    public Square(){}
 
     public boolean addActor(String actor){
 

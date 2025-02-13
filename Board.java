@@ -17,12 +17,19 @@ public class Board {
     }
 
     public boolean addType(String actor, int xpos, int ypos){
-        if(!board[xpos][ypos].addActor(actor)){
-            //System.out.println("Unable to add actor.");
+
+        //prevents actors from being placed at player starting position
+        if(xpos == 0 && ypos == 0){
             return false;
         }
-        //prevents actors from being placed at player starting position
-        else if(xpos == 4 && ypos ==4){
+
+        // Prevents actors from being placed on 2 directly surrounding blocks around starting position
+        if((xpos == 0 && ypos == 1) || (xpos == 1 && ypos == 0)){
+            return false;
+        }
+
+        if(!board[xpos][ypos].addActor(actor)){
+            //System.out.println("Unable to add actor.");
             return false;
         }
 
@@ -50,7 +57,7 @@ public class Board {
         String res = "";
 
         res += "-".repeat((21 * width)) + "\n";
-        for(int i = 0; i < height; i++){
+        for(int i = height -1; i >= 0; i--){
 
             res += emptyLine() + "\n" + "|";
 

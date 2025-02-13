@@ -2,8 +2,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
-    static final int height = 5, width = 5;
-    final int numVoid = 3, numWumpus = 1,numGold = 1;
+    static final int HEIGHT = 5, WIDTH = 5;
+    final int VOIDNUM = 3, WUMPUSNUM = 1,GOLDNUM = 1;
     static final String BLACKTEXT = "\u001B[30m", BLUETEXT = "\u001B[34m", PINKTEXT = "\u001B[35m", YELLOWTEXT = "\u001B[33m";
     static final String BLUEBACK = "\u001B[44m" + BLACKTEXT, PINKBACK = "\u001B[45m" + BLACKTEXT, YELLOWBACK = "\u001B[43m" + BLACKTEXT;
     static final String RESET = "\033[0m";
@@ -14,7 +14,7 @@ public class Game {
     }
 
     public void createBoard(){
-        board = new Board(width, height);
+        board = new Board(WIDTH, HEIGHT);
 
         Random rng = new Random();
 
@@ -22,24 +22,24 @@ public class Game {
         int i = 0;
 
         //adding voids to the board
-        while(i < numVoid){
-            if(!board.addType("void", rng.nextInt(5), rng.nextInt(5) ))
+        while(i < VOIDNUM){
+            if(!board.addType("void", rng.nextInt(HEIGHT), rng.nextInt(WIDTH) ))
                 continue;
             i++;
         }
         i = 0;
 
         //adding wumpuses to the board
-        while(i < numWumpus){
-            if(!board.addType("wumpus", rng.nextInt(5), rng.nextInt(5) ))
+        while(i < WUMPUSNUM){
+            if(!board.addType("wumpus", rng.nextInt(HEIGHT), rng.nextInt(WIDTH) ))
                 continue;
             i++;
         }
         i = 0;
 
         //adding gold to the board
-        while(i < numGold){
-            if(!board.addType("gold", rng.nextInt(5), rng.nextInt(5) ))
+        while(i < GOLDNUM){
+            if(!board.addType("gold", rng.nextInt(HEIGHT), rng.nextInt(WIDTH) ))
                 continue;
             i++;
         }
@@ -47,9 +47,9 @@ public class Game {
     }
 
     public void play(){
-        /*//debugging
+        //debugging
         System.out.println("Board state. (For debugging purposes)");
-        System.out.println(board);*/
+        System.out.println(board);
 
         Player player = new Player(board);
 
@@ -71,10 +71,27 @@ public class Game {
 
             pos = parseMove(move);
 
+            //shooting mechanism
+            if(move == 'j'){
 
+                System.out.println("Arrow notched. Enter the direction to shoot.");
+                move = scan.next().charAt(0);
+
+                pos = parseMove(move);
+                int shootX = player.getXpos() + pos[0], shootY = player.getYpos() + pos[1];
+
+                boolean[] state = board.squareState(shootX, shootY);
+
+                if(state[Square.WUMPUS] && state[Square.ALIVE]){
+                    System.out.println("Scream!\nThe wumpus is dead.");
+                    Square square = board.board[shootX][shootY];
+                    square.hasType[6] = false;
+                }
+                continue;
+            }
 
             if(!player.validMove(pos)){
-                System.out.println("That was not a valid move! Try again.");
+                System.out.println("Bump");
                 continue;
             }
 
@@ -105,10 +122,10 @@ public class Game {
 
     }
 
-    private int[] parseMove(char direction){
+    private int[] parseMove(char move){
         int[] pos = new int[2];
 
-        switch(direction){
+        switch(move){
             //left
             case('a'):
                 pos[0] = -1;
@@ -122,12 +139,12 @@ public class Game {
                 //up
             case('w'):
                 pos[0] = 0;
-                pos[1] = -1;
+                pos[1] = 1;
                 break;
                 //down
             case('s'):
                 pos[0] = 0;
-                pos[1] = 1;
+                pos[1] = -1;
                 break;
 
             default:
@@ -157,12 +174,13 @@ public class Game {
         }
         else{
             if(state[Square.STINK])
-                res += PINKTEXT + "Stink " + RESET;
+                res += PINKTEXT + "Stink " + RESET + "\n";
             if(state[Square.BREEZE])
-                res += BLUETEXT + "Breeze " + RESET;
+                res += BLUETEXT + "Breeze " + RESET + "\n";
             if(state[Square.SHINE])
-                res += YELLOWTEXT + "Shine " + RESET;
+                res += YELLOWTEXT + "Shine " + RESET + "\n";
         }
         return res;
     }
+
 }
