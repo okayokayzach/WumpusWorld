@@ -1,39 +1,38 @@
+import java.util.Scanner;
+
 public class Player {
 
-    private boolean hasArrow;
+    public boolean hasArrow;
     private int xpos, ypos;
+    public Algorithm ai;
 
     public Player(Board board){
 
         //hero starting position is bottom left corner
         xpos = 0;
         ypos = 0;
+
+        ai = new Algorithm();
     }
 
-    //determines whether the player is walking into a wall
-    public boolean validMove(int[] pos){
+    //get move from keyboard or ai
+    public char move(){
+        Scanner scan = new Scanner(System.in);
+        char move;
 
-        int newXpos = this.xpos + pos[0];
-        int newYpos = this.ypos + pos[1];
-
-        boolean valid = false;
-
-        //horizontal move in the boundaries of the board
-        if(this.xpos == newXpos && (newYpos >= 0 && newYpos < Game.HEIGHT)){
-                valid = true;
+        System.out.println("Press 1 for console, otherwise AI will play");
+        if(scan.nextInt() == 1){
+            System.out.println("Enter your move:");
+            move = scan.next().charAt(0);
+        }else{
+            move = ai.move();
+            System.out.println("AI move: " + move);
         }
 
-        //vertical move within boundaries of board
-        else if(this.ypos == newYpos && (newXpos >= 0 && newXpos < Game.WIDTH)){
-                valid = true;
-        }
-
-        if(valid){
-            this.xpos = newXpos;
-            this.ypos = newYpos;
-        }
-
-        return valid;
+        return move;
+    }
+    public void shoot(){
+        hasArrow = false;
     }
 
     public int getXpos(){
@@ -42,5 +41,7 @@ public class Player {
     public int getYpos(){
         return ypos;
     }
+    public void setXpos(int xpos) {this.xpos = xpos;}
+    public void setYpos(int ypos){this.ypos = ypos;}
 
 }

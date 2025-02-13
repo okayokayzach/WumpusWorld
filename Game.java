@@ -8,7 +8,8 @@ public class Game {
     static final String BLUEBACK = "\u001B[44m" + BLACKTEXT, PINKBACK = "\u001B[45m" + BLACKTEXT, YELLOWBACK = "\u001B[43m" + BLACKTEXT;
     static final String RESET = "\033[0m";
 
-    Board board;
+    static Board board;
+    static Player player;
 
     public Game(){
     }
@@ -51,7 +52,7 @@ public class Game {
         System.out.println("Board state. (For debugging purposes)");
         System.out.println(board);
 
-        Player player = new Player(board);
+        player = new Player(board);
 
         /*//debugging
         System.out.println("Player state. (For debugging purposes)");
@@ -66,8 +67,7 @@ public class Game {
 
         while(gameContinue){
 
-            System.out.println("Enter your move:");
-            move = scan.next().charAt(0);
+            move = player.move();
 
             pos = parseMove(move);
 
@@ -75,7 +75,7 @@ public class Game {
             if(move == 'j'){
 
                 System.out.println("Arrow notched. Enter the direction to shoot.");
-                move = scan.next().charAt(0);
+                move = player.move();
 
                 pos = parseMove(move);
                 int shootX = player.getXpos() + pos[0], shootY = player.getYpos() + pos[1];
@@ -90,10 +90,12 @@ public class Game {
                 continue;
             }
 
-            if(!player.validMove(pos)){
+            //hit wall
+            if(!validMove(pos)){
                 System.out.println("Bump");
                 continue;
             }
+
 
            /* //debugging
             System.out.println("Player state. (For debugging purposes)");
@@ -122,41 +124,30 @@ public class Game {
 
     }
 
-    private int[] parseMove(char move){
-        int[] pos = new int[2];
+    public static boolean validMove(int[] pos) {
 
-        switch(move){
-            //left
-            case('a'):
-                pos[0] = -1;
-                pos[1] = 0;
-                break;
-                //right
-            case('d'):
-                pos[0] = 1;
-                pos[1] = 0;
-                break;
-                //up
-            case('w'):
-                pos[0] = 0;
-                pos[1] = 1;
-                break;
-                //down
-            case('s'):
-                pos[0] = 0;
-                pos[1] = -1;
-                break;
+        boolean valid = false;
 
-            default:
-                pos[0] = -1;
-                pos[1] = -1;
+        int newXpos = player.getXpos() + pos[0];
+        int newYpos = player.getYpos() + pos[1];
+
+        //horizontal move in the boundaries of the board
+        if (player.getXpos() == newXpos && (newYpos >= 0 && newYpos < Game.HEIGHT)) {
+            valid = true;
+        }
+        //vertical move within boundaries of board
+        else if (player.getYpos() == newYpos && (newXpos >= 0 && newXpos < Game.WIDTH)) {
+            valid = true;
         }
 
-        return pos;
+        if (valid) {
+            player.setXpos(newXpos);
+            player.setYpos(newYpos);
+        }
+
+        return valid;
     }
-
-
-    private String move(int xpos, int ypos){
+    public String move(int xpos, int ypos){
 
         boolean[] state = board.squareState(xpos, ypos);
         String res = "";
@@ -181,6 +172,39 @@ public class Game {
                 res += YELLOWTEXT + "Shine " + RESET + "\n";
         }
         return res;
+    }
+
+    private static int[] parseMove(char move){
+        int[] pos = new int[2];
+
+        switch(move){
+            //left
+            case('a'):
+                pos[0] = -1;
+                pos[1] = 0;
+                break;
+            //right
+            case('d'):
+                pos[0] = 1;
+                pos[1] = 0;
+                break;
+            //up
+            case('w'):
+                pos[0] = 0;
+                pos[1] = 1;
+                break;
+            //down
+            case('s'):
+                pos[0] = 0;
+                pos[1] = -1;
+                break;
+
+            default:
+                pos[0] = -1;
+                pos[1] = -1;
+        }
+
+        return pos;
     }
 
 }
