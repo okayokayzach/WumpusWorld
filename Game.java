@@ -77,16 +77,8 @@ public class Game {
                 System.out.println("Arrow notched. Enter the direction to shoot.");
                 move = player.move();
 
-                pos = parseMove(move);
-                int shootX = player.getXpos() + pos[0], shootY = player.getYpos() + pos[1];
+                shoot(player, move);
 
-                boolean[] state = board.squareState(shootX, shootY);
-
-                if(state[Square.WUMPUS] && state[Square.ALIVE]){
-                    System.out.println("Scream!\nThe wumpus is dead.");
-                    Square square = board.board[shootX][shootY];
-                    square.hasType[6] = false;
-                }
                 continue;
             }
 
@@ -173,6 +165,47 @@ public class Game {
         }
         return res;
     }
+
+    private void shoot(Player player, char move){
+        int[] pos = parseMove(move);
+        boolean[] state;
+        int shootX, shootY;
+
+        //shooting up or down
+        if(move == 'w' || move == 's'){
+            for(int i = player.getYpos(); (i <= HEIGHT && i >= 0); i += pos[1] ){
+                shootX = player.getXpos();
+                shootY = player.getYpos() + i;
+
+                state = board.squareState(shootX, shootY);
+
+                if(state[Square.WUMPUS] && state[Square.ALIVE]){
+                    System.out.println("Scream!\nThe wumpus is dead.");
+                    Square square = board.board[shootX][shootY];
+                    square.hasType[6] = false;
+                    break;
+                }
+            }
+        }
+        //shooting left or right
+        else if(move == 'a' || move == 'd'){
+            for(int i = player.getXpos(); (i <= WIDTH && i >= 0); i += pos[0] ){
+                shootX = player.getXpos() + i;
+                shootY = player.getYpos();
+
+                state = board.squareState(shootX, shootY);
+
+                if(state[Square.WUMPUS] && state[Square.ALIVE]){
+                    System.out.println("Scream!\nThe wumpus is dead.");
+                    Square square = board.board[shootX][shootY];
+                    square.hasType[6] = false;
+                    break;
+                }
+            }
+        }
+        return;
+    }
+
 
     private static int[] parseMove(char move){
         int[] pos = new int[2];

@@ -4,7 +4,7 @@ public class Player {
 
     public boolean hasArrow;
     private int xpos, ypos;
-    public Algorithm ai;
+    public QLearningAlgorithm ai;
 
     public Player(Board board){
 
@@ -12,7 +12,7 @@ public class Player {
         xpos = 0;
         ypos = 0;
 
-        ai = new Algorithm();
+        ai = new QLearningAlgorithm();
     }
 
     //get move from keyboard or ai
