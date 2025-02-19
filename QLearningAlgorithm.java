@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class QLearningAlgorithm {
+public class QLearningAlgorithm extends Player {
 
     //gold, pit, wumpus, move(bump)
     private boolean[] state = {false, false, false, false};
@@ -11,6 +11,11 @@ public class QLearningAlgorithm {
 
     public QLearningAlgorithm(){
 
+    }
+
+    private String encodeState(int x, int y, boolean breeze, boolean stench, boolean glitter, boolean wumpusAlive) {
+        return x + "," + y + "," + (breeze ? "B" : "N") + (stench ? "S" : "N") +
+                (glitter ? "G" : "N") + (wumpusAlive ? "W" : "D");
     }
 
 

@@ -3,44 +3,45 @@ import java.util.Scanner;
 public class Player {
 
     public boolean hasArrow;
-    private int xpos, ypos;
-    public QLearningAlgorithm ai;
+    protected int xpos, ypos;
 
-    public Player(Board board){
+    static Scanner scan = new Scanner(System.in);
+
+    public Player(){
 
         //hero starting position is bottom left corner
         xpos = 0;
         ypos = 0;
 
-        ai = new QLearningAlgorithm();
     }
 
-    //get move from keyboard or ai
-    public char move(){
-        Scanner scan = new Scanner(System.in);
-        char move;
+    //get move from keyboard
+    public char move() {
+        char move = 'a';
 
-        System.out.println("Press 1 for console, otherwise AI will play");
-        if(scan.nextInt() == 1){
+        do{
             System.out.println("Enter your move:");
             move = scan.next().charAt(0);
-        }else{
-            move = ai.move();
-            System.out.println("AI move: " + move);
+
         }
+        while(move != 'w' && move != 'a' && move != 's' && move != 'd' && move != 'j');
 
         return move;
-    }
-    public void shoot(){
-        hasArrow = false;
+
     }
 
-    public int getXpos(){
-        return xpos;
+    public void squareState(boolean[] result){}
+
+    public char shoot(){
+        hasArrow = false;
+
+        System.out.println("Arrow notched. Enter the direction to shoot.");
+
+        return scan.next().charAt(0);
     }
-    public int getYpos(){
-        return ypos;
-    }
+
+    public int getXpos(){ return xpos;}
+    public int getYpos(){ return ypos;}
     public void setXpos(int xpos) {this.xpos = xpos;}
     public void setYpos(int ypos){this.ypos = ypos;}
 

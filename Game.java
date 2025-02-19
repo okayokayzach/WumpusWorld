@@ -12,10 +12,12 @@ public class Game {
     static Player player;
 
     public Game(){
+
     }
 
-    public void createBoard(){
-        board = new Board(WIDTH, HEIGHT);
+    public void createBoard(Board board){
+        this.board = board;
+        //board = new Board(WIDTH, HEIGHT);
 
         Random rng = new Random();
 
@@ -47,16 +49,14 @@ public class Game {
 
     }
 
-    public void play(){
+    public void play(Player player){
         //debugging
         System.out.println("Board state. (For debugging purposes)");
         System.out.println(board);
 
-        player = new Player(board);
+        this.player = player;
 
-        /*//debugging
-        System.out.println("Player state. (For debugging purposes)");
-        System.out.println("xpos: " +player.getXpos() + " ypos: " + player.getYpos());*/
+        //player = new Player(board);
 
         Scanner scan = new Scanner(System.in);
 
@@ -74,10 +74,12 @@ public class Game {
             //shooting mechanism
             if(move == 'j'){
 
-                System.out.println("Arrow notched. Enter the direction to shoot.");
-                move = player.move();
+                //System.out.println("Arrow notched. Enter the direction to shoot.");
+                //move = player.move();*/
 
-                shoot(player, move);
+                shoot(player);
+
+                player.hasArrow = false;
 
                 continue;
             }
@@ -109,6 +111,7 @@ public class Game {
                     gameContinue = false;
                     break;
                 default:
+                    player.squareState(board.squareState(player.getXpos(), player.getYpos()));
                     System.out.println(result);
 
             }
@@ -157,19 +160,28 @@ public class Game {
         }
         else{
             if(state[Square.STINK])
+                res += "Stink " + "\n";
+            if(state[Square.BREEZE])
+                res += "Breeze " +  "\n";
+            if(state[Square.SHINE])
+                res += "Shine " + "\n";
+
+            /*if(state[Square.STINK])
                 res += PINKTEXT + "Stink " + RESET + "\n";
             if(state[Square.BREEZE])
                 res += BLUETEXT + "Breeze " + RESET + "\n";
             if(state[Square.SHINE])
-                res += YELLOWTEXT + "Shine " + RESET + "\n";
+                res += YELLOWTEXT + "Shine " + RESET + "\n";*/
         }
         return res;
     }
 
-    private void shoot(Player player, char move){
-        int[] pos = parseMove(move);
+    private void shoot(Player player){
         boolean[] state;
         int shootX, shootY;
+
+        char move = player.shoot();
+        int[] pos = parseMove(move);
 
         //shooting up or down
         if(move == 'w' || move == 's'){
