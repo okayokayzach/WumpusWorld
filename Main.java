@@ -11,24 +11,17 @@ public class Main {
 
         System.out.println("0 - Play yourself\n1 - Random algorithm\n2 - Simple AI algorithm\n3 - Q learning Algorithm");
         int input = scan.nextInt();
-        switch(input){
-            case 0:
-                player = new Player();
-                break;
-            case 1:
-                player = new RandomAlgorithm();
-                break;
-            case 2:
-                player = new SimpleAlgorithm();
-                break;
-            case 3:
-                player = new QLearningAlgorithm();
-                break;
-            default:
+        player = switch (input) {
+            case 0 -> new Player();
+            case 1 -> new RandomAlgorithm();
+            case 2 -> new SimpleAlgorithm();
+            case 3 -> new QLearningAlgorithm();
+
+            default -> {
                 System.out.println("Invalid input. Defaulting to user playing");
-                player = new Player();
-                break;
-        }
+                yield new Player();
+            }
+        };
 
         game.createBoard(board);
 

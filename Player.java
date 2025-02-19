@@ -30,7 +30,6 @@ public class Player {
 
     }
 
-    public void squareState(boolean[] result){}
 
     public char shoot(){
         hasArrow = false;
@@ -40,6 +39,7 @@ public class Player {
         return scan.next().charAt(0);
     }
 
+    public void squareState(Square square){}
     public int getXpos(){ return xpos;}
     public int getYpos(){ return ypos;}
     public void setXpos(int xpos) {this.xpos = xpos;}

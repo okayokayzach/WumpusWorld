@@ -5,6 +5,8 @@ public class Square {
     static public final int WUMPUS = 0, GOLD = 1, VOID = 2, STINK = 3, SHINE = 4, BREEZE = 5, ALIVE = 6;
     boolean[] hasType = {false, false, false, false, false, false, true};
 
+    private int threat;
+
     //Colours to be used for display
     static final String BLACKTEXT = "\u001B[30m", BLUETEXT = "\u001B[34m", PINKTEXT = "\u001B[35m", YELLOWTEXT = "\u001B[33m";
     static final String BLUEBACK = "\u001B[44m" + BLACKTEXT, PINKBACK = "\u001B[45m" + BLACKTEXT, YELLOWBACK = "\u001B[43m" + BLACKTEXT;
@@ -13,7 +15,14 @@ public class Square {
     //Corresponding type to output with above boolean array hasType
     private String type[] = {PINKBACK + "Wumpus" + RESET, YELLOWBACK + "Gold" + RESET, BLUEBACK + "Void" + RESET, PINKTEXT + "Stink" + RESET, YELLOWTEXT + "Shine" + RESET, BLUETEXT + "Breeze" + RESET};
 
-    public Square(){}
+    public Square(){
+        threat = 0;
+    }
+
+    public Square(Square other){
+        this.hasType = other.hasType;
+        this.threat = other.threat;
+    }
 
     public boolean addActor(String actor){
 
@@ -65,6 +74,16 @@ public class Square {
 
     public boolean[] state(){
         return hasType;
+    }
+
+    public int getThreat()
+    {
+        return threat;
+    }
+
+    public void setThreat(int q)
+    {
+        threat = q;
     }
 
     public String toString(){

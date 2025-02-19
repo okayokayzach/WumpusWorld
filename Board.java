@@ -1,17 +1,24 @@
+import java.util.*;
 public class Board {
     int height, width;
 
     Square board[][];
 
+    private Map<Square, int[]> squarePositions;
+
+
     public Board(int width, int height){
         this.height = height;
         this.width = width;
 
+        squarePositions = new HashMap<>();
+
         board = new Square[width][height];
 
-        for(int i = 0; i < height; i++){
-            for(int j = 0; j < width; j++){
-                board[i][j] = new Square();
+        for(int row = 0; row < height; row++){
+            for(int col = 0; col < width; col++){
+                board[row][col] = new Square();
+                squarePositions.put(board[row][col], new int[]{row, col});
             }
         }
     }
@@ -52,6 +59,30 @@ public class Board {
     public boolean[] squareState(int xpos, int ypos){
         return board[xpos][ypos].state();
     }
+
+    public ArrayList<Square> getSurroundings(int xpos, int ypos){
+        ArrayList<Square> surroundings = new ArrayList<>();
+
+        if(xpos + 1 < width){
+            surroundings.add(board[xpos + 1][ypos]);
+        }
+        if(xpos - 1 >= 0){
+            surroundings.add(board[xpos - 1][ypos]);
+        }
+        if(ypos + 1 < height){
+            surroundings.add(board[xpos][ypos + 1]);
+        }
+        if(ypos - 1 >= 0){
+            surroundings.add(board[xpos][ypos - 1]);
+        }
+
+        return surroundings;
+    }
+
+    public int[] getSquareCoordinates(Square target) {
+        return squarePositions.getOrDefault(target, null);
+    }
+
 
     public String toString(){
         String res = "";

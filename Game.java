@@ -69,6 +69,8 @@ public class Game {
 
             move = player.move();
 
+            System.out.println(move);
+
             pos = parseMove(move);
 
             //shooting mechanism
@@ -111,7 +113,8 @@ public class Game {
                     gameContinue = false;
                     break;
                 default:
-                    player.squareState(board.squareState(player.getXpos(), player.getYpos()));
+                    player.squareState(board.board[player.getXpos()][player.getYpos()]);
+                    //player.squareState(board.squareState(player.getXpos(), player.getYpos()));
                     System.out.println(result);
 
             }
