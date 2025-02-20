@@ -2,7 +2,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
-    static final int HEIGHT = 5, WIDTH = 5;
+    static final int HEIGHT = 4, WIDTH = 4;
     final int VOIDNUM = 3, WUMPUSNUM = 1,GOLDNUM = 1;
     static final String BLACKTEXT = "\u001B[30m", BLUETEXT = "\u001B[34m", PINKTEXT = "\u001B[35m", YELLOWTEXT = "\u001B[33m";
     static final String BLUEBACK = "\u001B[44m" + BLACKTEXT, PINKBACK = "\u001B[45m" + BLACKTEXT, YELLOWBACK = "\u001B[43m" + BLACKTEXT;
@@ -69,7 +69,17 @@ public class Game {
 
             move = player.move();
 
-            System.out.println(move);
+            //for debugging
+            String direct = "";
+            switch(move){
+                case 'w': direct += "up"; break;
+                case 's': direct += "down"; break;
+                case 'a': direct += "left"; break;
+                case 'd': direct += "right"; break;
+            }
+            System.out.println("Move: " + direct);
+
+            //System.out.println(move);
 
             pos = parseMove(move);
 

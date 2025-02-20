@@ -88,7 +88,25 @@ public class Square {
 
     public String toString(){
         String res = "";
+
+        for(int i = 0; i < hasType.length - 1; i++ ){
+
+            if(hasType[i]){
+                res += type[i] + ", ";
+
+            }
+        }
+        return res;
+    }
+
+
+    //colors arent really useful with ai
+    public String String(){
+        String res = "";
         double num = 0.0;
+
+        //for ai debugging
+        //System.out.print("Square ");
 
         //adds all attributes and types the square has
         for(int i = 0; i < hasType.length - 1; i++ ){

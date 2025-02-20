@@ -4,7 +4,6 @@ public class Player {
 
     public boolean hasArrow;
     protected int xpos, ypos;
-
     static Scanner scan = new Scanner(System.in);
 
     public Player(){
@@ -39,7 +38,10 @@ public class Player {
         return scan.next().charAt(0);
     }
 
-    public void squareState(Square square){}
+    public void squareState(Square square){
+
+
+    }
     public int getXpos(){ return xpos;}
     public int getYpos(){ return ypos;}
     public void setXpos(int xpos) {this.xpos = xpos;}

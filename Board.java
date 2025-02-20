@@ -93,7 +93,7 @@ public class Board {
             res += emptyLine() + "\n" + "|";
 
             for(int j = 0; j < width; j++){
-                res += board[j][i] + "|";
+                res += board[j][i].String() + "|";
             }
 
             res += "\n" + emptyLine();
